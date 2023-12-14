@@ -1,0 +1,44 @@
+{% extends 'mysite/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+
+<h1>Categories</h1>
+<hr />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Category</th>
+            <th scope="col">Balance</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        {% for category in categories %}
+
+        <tr>
+            <td><a href="{% url 'mysite:category' category.id %}">{{ category.name }}</a></td>
+            <td>${{ category.balance }}</td>
+        </tr>
+
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>New Category</h3>
+
+<form class=" row g-3" method="post">
+
+    {% csrf_token %}
+
+    <div class="col-auto">
+        <input type="text" class="form-control" id="inputName" name="category_name" placeholder="Category Name">
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary mb-3">Create Category</button>
+    </div>
+</form>
+
+{% endblock %}

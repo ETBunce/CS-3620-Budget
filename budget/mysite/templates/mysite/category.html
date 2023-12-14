@@ -1,0 +1,55 @@
+{% extends 'mysite/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+
+<a href="{% url 'mysite:home' %}">Back to Categories</a>
+
+<h1>{{ category.name }}</h1>
+<hr />
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Budget</th>
+            <th scope="col">Balance</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        {% for budget in budgets %}
+
+        <tr>
+            <td><a href="{% url 'mysite:budget' budget.id %}">{{ budget.name }}</a></td>
+            <td>${{ budget.balance }}</td>
+        </tr>
+
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>New Budget</h3>
+
+<form class=" row g-3" method="post">
+
+    {% csrf_token %}
+
+    <div class="col-auto">
+        <input type="text" class="form-control" id="inputName" name="budget_name" placeholder="Budget Name">
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary mb-3">Create Budget</button>
+    </div>
+</form>
+
+<form class=" row g-3" method="post">
+
+    {% csrf_token %}
+    <div class="col-auto">
+        <button type="submit" class="btn btn-danger mb-3" name="action" value="delete">Delete Category</button>
+    </div>
+</form>
+
+{% endblock %}

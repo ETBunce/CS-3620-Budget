@@ -1,0 +1,66 @@
+{% extends 'mysite/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+
+<a href="{% url 'mysite:category' budget.category.id %}">Back to Budgets</a>
+
+<h1>{{ budget.category.name }} / {{ budget.name }}</h1>
+
+<hr />
+
+<form class="row g-3" method="post">
+
+    {% csrf_token %}
+
+    <div class="col-auto">
+        <input type="text" class="form-control" id="inputAmount" name="amount" placeholder="Amount">
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-success mb-3" name="action" value="deposit">Deposit</button>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-danger mb-3" name="action" value="withdraw">Withdraw</button>
+    </div>
+</form>
+
+<form class=" row g-3" method="post">
+
+    {% csrf_token %}
+    <div class="col-auto">
+        <button type="submit" class="btn btn-danger mb-3" name="action" value="delete">Delete Budget</button>
+    </div>
+</form>
+
+<h2>Total: ${{ budget.balance }}</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Transaction</th>
+            <th scope="col">Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for transaction in transactions %}
+
+        {% if transaction.name == "Deposit" %}
+        <tr class="table-success">
+            <td>{{ transaction.name }}</td>
+            <td>{{ transaction.amount }}</td>
+        </tr>
+        {% endif %}
+
+        {% if transaction.name == "Withdrawal" %}
+        <tr class="table-danger">
+            <td>{{ transaction.name }}</td>
+            <td>{{ transaction.amount }}</td>
+        </tr>
+        {% endif %}
+
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
